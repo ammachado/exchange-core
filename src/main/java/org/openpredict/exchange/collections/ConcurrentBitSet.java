@@ -1,17 +1,17 @@
 package org.openpredict.exchange.collections;
 
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.concurrent.atomic.AtomicLongArray;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ConcurrentBitSet {
-    private final AtomicLongArray words;
-    private final int length;
 
     private static final long WORD_MASK = 0xffffffffffffffffL;
     private static final int ADDRESS_BITS_PER_WORD = 6;
     private static final int BITS_PER_WORD = 1 << ADDRESS_BITS_PER_WORD;
+
+    private final AtomicLongArray words;
+    private final int length;
 
     public ConcurrentBitSet(int length) {
         words = new AtomicLongArray((length + 63) >>> ADDRESS_BITS_PER_WORD);
@@ -55,7 +55,6 @@ public class ConcurrentBitSet {
      *
      */
     public int nextSetBit(int fromIndex) {
-
         if (fromIndex >= length || fromIndex < 0) {
             throw new IndexOutOfBoundsException();
         }
@@ -78,5 +77,4 @@ public class ConcurrentBitSet {
     private static int wordIndex(int bitIndex) {
         return bitIndex >> ADDRESS_BITS_PER_WORD;
     }
-
 }

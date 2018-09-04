@@ -7,7 +7,6 @@ public interface TradeEventCallback {
 
     void submit(Order order, long volume, boolean fullMatch, boolean fullMatchForActiveOrder);
 
-
     static void empty(Order order, long volume, boolean fullMatch, boolean fullMatchForActiveOrder) {
     }
 }

@@ -18,11 +18,10 @@ public class DisruptorExceptionHandler<T> implements ExceptionHandler<T> {
 
     @Override
     public void handleOnStartException(Throwable ex) {
-        log.debug("Disruptor '{}' startup exception: {}", name, ex);
+        log.debug("Disruptor '{}' startup exception: {}", name, ex.getMessage(), ex);
     }
 
     @Override
     public void handleOnShutdownException(Throwable ex) {
-
     }
 }

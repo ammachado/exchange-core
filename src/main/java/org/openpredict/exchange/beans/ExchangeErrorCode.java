@@ -11,11 +11,8 @@ public enum ExchangeErrorCode {
     REJECTED_UNKNOWN_SYMBOL(4023),
     REJECTED_RE_NSF(4120),
 
-
     CANCEL_FAILED_UNKNOWN_ORDER(5030);
 
     @Getter
-    private int code;
-
-
+    private final int code;
 }

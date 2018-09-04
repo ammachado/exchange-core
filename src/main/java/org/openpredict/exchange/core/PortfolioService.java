@@ -1,20 +1,20 @@
 package org.openpredict.exchange.core;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.openpredict.exchange.beans.OrderAction;
 import org.openpredict.exchange.beans.PortfolioPosition;
 import org.openpredict.exchange.beans.SymbolPortfolio;
 import org.openpredict.exchange.beans.UserProfile;
 import org.openpredict.exchange.beans.cmd.OrderCommand;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class PortfolioService {
 
-    @Autowired
-    private UserProfileService userProfileService;
+    private final UserProfileService userProfileService;
 
     public void holdDepositForNewOrder(OrderCommand order, UserProfile userProfile) {
         //SymbolPortfolio portfolio = userProfile.portfolio.computeIfAbsent(order.symbol, SymbolPortfolio::new);
@@ -34,15 +34,11 @@ public class PortfolioService {
 //            log.debug("HOLD  {}", order);
 //            log.debug("pendingSellSize={} pendingBuySize={}", portfolio.pendingSellSize, portfolio.pendingBuySize);
 //        }
-
     }
 
-
     /**
-     * Update portfolio for one user
-     * 1. Un-hold pending size
-     * 2. Reduce opposite position accordingly (if exists)
-     * 3. Increase forward position accordingly (if size left in the trading event)
+     * Update portfolio for one user 1. Un-hold pending size 2. Reduce opposite position accordingly (if exists) 3. Increase forward position
+     * accordingly (if size left in the trading event)
      */
     public void updatePortfolioForTrade(OrderAction action, long size, int price, SymbolPortfolio portfolio) {
 
@@ -57,7 +53,6 @@ public class PortfolioService {
 //            log.debug("TRADE  {}", cmd);
 //            log.debug("pendingSellSize={} pendingBuySize={}", portfolio.pendingSellSize, portfolio.pendingBuySize);
 //        }
-
 
         // TODO investigate why can be negative
 //        if (portfolio.pendingSellSize < 0 || portfolio.pendingBuySize < 0) {

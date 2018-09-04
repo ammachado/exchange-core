@@ -1,33 +1,30 @@
 package org.openpredict.exchange.core;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.openpredict.exchange.beans.OrderAction;
 import org.openpredict.exchange.beans.SymbolPortfolio;
 import org.openpredict.exchange.beans.SymbolSpecification;
 import org.openpredict.exchange.beans.UserProfile;
 import org.openpredict.exchange.beans.cmd.OrderCommand;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class RiskEngine {
 
-    @Autowired
-    private UserProfileService userProfileService;
+    private final UserProfileService userProfileService;
 
-    @Autowired
-    private PortfolioService portfolioService;
+    private final PortfolioService portfolioService;
 
-    @Autowired
-    private SymbolSpecificationProvider symbolSpecificationProvider;
+    private final SymbolSpecificationProvider symbolSpecificationProvider;
 
     /**
      * 1. Users account balance
      * 2. Margin
      * 3. Current limit orders
      */
-
     public boolean checkIfCanPlaceOrder(OrderCommand cmd, UserProfile userProfile) {
         SymbolPortfolio portfolio = userProfile.portfolio.get(cmd.symbol);
 
@@ -67,5 +64,4 @@ public class RiskEngine {
             return newDeposit <= userProfile.fastBalance + userProfile.fastMargin;
         }
     }
-
 }

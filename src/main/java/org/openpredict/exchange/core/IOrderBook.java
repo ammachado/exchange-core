@@ -7,7 +7,6 @@ import org.openpredict.exchange.beans.cmd.OrderCommand;
 
 public interface IOrderBook {
 
-
     void processCommand(OrderCommand cmd);
 
     // testing only - validateInternalState without changing state

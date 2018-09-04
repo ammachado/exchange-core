@@ -1,20 +1,19 @@
 package org.openpredict.exchange.beans;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-@Getter
+@RequiredArgsConstructor
 public enum OrderAction {
-    ASK(0),
-    BID(1);
 
-    private byte code;
+    ASK((byte) 0),
 
-    OrderAction(int code) {
-        this.code = (byte) code;
-    }
+    BID((byte) 1);
+
+    @Getter
+    private final byte code;
 
     public OrderAction opposite() {
         return this == ASK ? BID : ASK;
     }
-
 }

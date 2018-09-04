@@ -25,7 +25,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
 
-        <guava.version>25.0-jre</guava.version>
+        <guava.version>26.0-jre</guava.version>
         <commons-math3.version>3.6.1</commons-math3.version>
         <commons-lang3.version>3.7</commons-lang3.version>
         <antlr.version>4.7.1</antlr.version>
@@ -40,8 +40,6 @@
 
     <dependencyManagement>
         <dependencies>
-
-
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>

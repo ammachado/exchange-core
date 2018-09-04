@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class UserProfileService {
 
-    private MutableLongObjectMap<UserProfile> userProfiles = new LongObjectHashMap<>();
+    private final MutableLongObjectMap<UserProfile> userProfiles = new LongObjectHashMap<>();
 
     public UserProfile getUserProfile(long uid) {
         return userProfiles.get(uid);
@@ -33,5 +33,4 @@ public class UserProfileService {
             }
         }
     }
-
 }

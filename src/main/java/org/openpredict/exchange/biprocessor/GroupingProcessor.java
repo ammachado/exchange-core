@@ -25,14 +25,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 public final class GroupingProcessor implements EventProcessor {
+
     private static final int IDLE = 0;
     private static final int HALTED = IDLE + 1;
     private static final int RUNNING = HALTED + 1;
 
     private final AtomicInteger running = new AtomicInteger(IDLE);
+    private final Sequence sequence = new Sequence(Sequencer.INITIAL_CURSOR_VALUE);
     private final RingBuffer<OrderCommand> ringBuffer;
     private final SequenceBarrier sequenceBarrier;
-    private final Sequence sequence = new Sequence(Sequencer.INITIAL_CURSOR_VALUE);
 
     public GroupingProcessor(final RingBuffer<OrderCommand> ringBuffer, final SequenceBarrier sequenceBarrier) {
         this.ringBuffer = ringBuffer;
@@ -54,7 +55,6 @@ public final class GroupingProcessor implements EventProcessor {
     public boolean isRunning() {
         return running.get() != IDLE;
     }
-
 
     /**
      * It is ok to have another thread rerun this method after a halt().

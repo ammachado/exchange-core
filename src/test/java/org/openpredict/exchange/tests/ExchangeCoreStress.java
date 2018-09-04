@@ -61,7 +61,6 @@ public class ExchangeCoreStress {
     @MockBean
     private Consumer<OrderCommand> resultsConsumerMock;
 
-
     private TestOrdersGenerator generator = new TestOrdersGenerator();
 
     private static final int SYMBOL = 5991;
@@ -123,13 +122,10 @@ public class ExchangeCoreStress {
 
         double avg = (float) perfResults.stream().mapToDouble(x -> x).average().orElse(0);
         log.info("Average: {} MT/s", avg);
-
     }
-
 
     @Test
     public void latencyTest() throws Exception {
-
         int numOrders = 3_000_000;
         int targetOrderBookOrders = 1000;
         int numUsers = 1000;
@@ -159,7 +155,6 @@ public class ExchangeCoreStress {
         // TODO - first run should validate the output (orders are accepted and processed properly)
 
         for (int j = 0; j < 10000; j++) {
-
             int nanosPerCmd = 1_000_000_000 / targetTps;
             targetTps += 25_000;
 
@@ -204,6 +199,4 @@ public class ExchangeCoreStress {
             }
         }
     }
-
-
 }

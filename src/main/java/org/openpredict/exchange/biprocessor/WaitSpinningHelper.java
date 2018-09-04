@@ -16,13 +16,11 @@ public class WaitSpinningHelper {
     private final int spinLimit;
 
     public WaitSpinningHelper(SequenceBarrier sequenceBarrier, int spinLimit) {
-
         this.spinLimit = spinLimit;
         this.sequenceBarrier = sequenceBarrier;
-        try {
-            Field f;
 
-            f = sequenceBarrier.getClass().getDeclaredField("dependentSequence");
+        try {
+            Field f = sequenceBarrier.getClass().getDeclaredField("dependentSequence");
             f.setAccessible(true);
             dependentSequence = (Sequence) f.get(sequenceBarrier);
 
@@ -41,8 +39,7 @@ public class WaitSpinningHelper {
 
         int c = spinLimit;
         long availableSequence;
-        while ((availableSequence = dependentSequence.get()) < sequence
-                && c-- > 0) {
+        while ((availableSequence = dependentSequence.get()) < sequence && c-- > 0) {
             sequenceBarrier.checkAlert();
         }
 
@@ -50,6 +47,4 @@ public class WaitSpinningHelper {
                 ? sequencer.getHighestPublishedSequence(sequence, availableSequence)
                 : availableSequence;
     }
-
-
 }

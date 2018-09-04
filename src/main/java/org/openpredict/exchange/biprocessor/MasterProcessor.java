@@ -60,7 +60,6 @@ public final class MasterProcessor implements EventProcessor {
         return running.get() != IDLE;
     }
 
-
     /**
      * It is ok to have another thread rerun this method after a halt().
      *
@@ -105,7 +104,6 @@ public final class MasterProcessor implements EventProcessor {
         //T event;
         while (true) {
             try {
-
                 // should spin and also check another barrier
                 long availableSequence = sequenceBarrier.tryWaitFor(nextSequence, 5000);
 
@@ -139,10 +137,6 @@ public final class MasterProcessor implements EventProcessor {
                 sequence.set(nextSequence);
                 nextSequence++;
             }
-
-
         }
     }
-
-
 }

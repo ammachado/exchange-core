@@ -2,6 +2,7 @@ package org.openpredict.exchange.core;
 
 import com.lmax.disruptor.EventTranslatorOneArg;
 import com.lmax.disruptor.RingBuffer;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.openpredict.exchange.beans.api.*;
 import org.openpredict.exchange.beans.cmd.CommandResultCode;
@@ -12,10 +13,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ExchangeApi {
 
-    @Autowired
-    private ExchangeCore exchangeCore;
+    private final ExchangeCore exchangeCore;
 
     public void submitCommand(ApiCommand cmd) {
         //log.debug("{}", cmd);

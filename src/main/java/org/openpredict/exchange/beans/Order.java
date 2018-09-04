@@ -1,6 +1,5 @@
 package org.openpredict.exchange.beans;
 
-
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.openpredict.exchange.beans.cmd.OrderCommand;

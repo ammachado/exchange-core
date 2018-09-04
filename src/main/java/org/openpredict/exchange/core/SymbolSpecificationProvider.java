@@ -18,5 +18,4 @@ public class SymbolSpecificationProvider {
     public void registerSymbol(int symbol, SymbolSpecification spec) {
         symbolSpecs.put(symbol, spec);
     }
-
 }

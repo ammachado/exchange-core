@@ -55,7 +55,6 @@ public class LatencyTools {
         return fmt;
     }
 
-
     private Map<String, Float> createLatencyReportGuava(IntArrayList latency, double warmupPercent) {
         final int warmupOrders = (int) (latency.size() * warmupPercent / 100.0);
         int[] dataset = latency.toArray();
@@ -69,6 +68,4 @@ public class LatencyTools {
                 .forEach(k -> fmt.put(((float) k / 100) + "%", (float) (latencyPercentiles.get(k) / 2.0)));
         return fmt;
     }
-
-
 }

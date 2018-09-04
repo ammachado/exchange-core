@@ -1,6 +1,11 @@
 package org.openpredict.exchange.core;
 
+import static org.openpredict.exchange.beans.OrderAction.ASK;
+import static org.openpredict.exchange.beans.OrderAction.BID;
+
 import com.lmax.disruptor.EventSink;
+import java.util.ArrayDeque;
+import java.util.BitSet;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.collections.api.map.primitive.MutableIntObjectMap;
@@ -12,28 +17,22 @@ import org.openpredict.exchange.beans.OrderAction;
 import org.openpredict.exchange.beans.OrderType;
 import org.openpredict.exchange.beans.cmd.OrderCommand;
 
-import java.util.ArrayDeque;
-import java.util.BitSet;
-
-import static org.openpredict.exchange.beans.OrderAction.ASK;
-import static org.openpredict.exchange.beans.OrderAction.BID;
-
 @Slf4j
 @RequiredArgsConstructor
 public class OrderBookFast extends OrderBookBase {
 
     // TODO add far prices support
 
-    private BitSet askBitSet = new BitSet();
-    private BitSet bidBitSet = new BitSet();
-    private MutableIntObjectMap<IOrdersBucket> askBuckets = new IntObjectHashMap<>();
-    private MutableIntObjectMap<IOrdersBucket> bidBuckets = new IntObjectHashMap<>();
+    private final BitSet askBitSet = new BitSet();
+    private final BitSet bidBitSet = new BitSet();
+    private final MutableIntObjectMap<IOrdersBucket> askBuckets = new IntObjectHashMap<>();
+    private final MutableIntObjectMap<IOrdersBucket> bidBuckets = new IntObjectHashMap<>();
     private int minAskPrice = Integer.MAX_VALUE;
     private int maxBidPrice = 0;
 
     // private long baseCenterPrice = 1000;
 
-    //    private LongObjectHashMap<Order> idMap = new LongObjectHashMap<>();
+    // private LongObjectHashMap<Order> idMap = new LongObjectHashMap<>();
     private LongObjectHashMap<IOrdersBucket> idMapToBucket = new LongObjectHashMap<>();
 
     private final EventSink<L2MarketData> marketDataBuffer;
@@ -41,11 +40,9 @@ public class OrderBookFast extends OrderBookBase {
     private final ArrayDeque<Order> ordersPool = new ArrayDeque<>(65536);
     private final ArrayDeque<IOrdersBucket> bucketsPool = new ArrayDeque<>(65536);
 
-
     /**
-     * Process new MARKET order
-     * Such order matched to any existing LIMIT orders
-     * Of there is not enough volume in order book - reject as partially filled
+     * Process new MARKET order Such order matched to any existing LIMIT orders Of there is not enough volume in order book - reject as partially
+     * filled
      *
      * @param order - market order to match
      */
@@ -56,17 +53,14 @@ public class OrderBookFast extends OrderBookBase {
         if (filledSize < order.size) {
             sendRejectEvent(order, filledSize);
         }
-    }
-
+   }
 
     /**
-     * Place new LIMIT order
-     * If order is marketable (there are matching limit orders) - match it first with existing liquidity
+     * Place new LIMIT order If order is marketable (there are matching limit orders) - match it first with existing liquidity
      *
      * @param cmd - limit order to place
      */
     protected void placeNewLimitOrder(OrderCommand cmd) {
-
         long orderId = cmd.orderId;
         if (idMapToBucket.containsKey(orderId)) {
             throw new IllegalArgumentException("duplicate orderId: " + orderId);
@@ -108,7 +102,6 @@ public class OrderBookFast extends OrderBookBase {
         bucket.add(orderRecord);
 
         idMapToBucket.put(orderId, bucket);
-
     }
 
     private IOrdersBucket getOrCreateNewBucketAck(int price) {
@@ -155,9 +148,8 @@ public class OrderBookFast extends OrderBookBase {
     }
 
     /**
-     * Match the order instantly to specified sorted buckets map
-     * Fully matching orders are removed from orderId index
-     * Should any trades occur - they sent to tradesConsumer
+     * Match the order instantly to specified sorted buckets map Fully matching orders are removed from orderId index Should any trades occur - they
+     * sent to tradesConsumer
      *
      * @param order - LIMIT or MARKET order to match
      * @return matched size (0 if nothing is matching to the order)
@@ -280,18 +272,11 @@ public class OrderBookFast extends OrderBookBase {
     /**
      * Reduce volume or/and move an order
      * <p>
-     * Normally requires 4 hash table lookup operations.
-     * 1. Find bucket by orderId
-     * (optional reduce, validate price)
-     * 2. Find in remove order in the bucket (remove from internal queue and hash table)
-     * (optional remove bucket)
-     * (set new price and try match instantly)
-     * 3. Find bucket for new price
-     * 4. Insert order in the bucket (internal hash table and queue)
+     * Normally requires 4 hash table lookup operations. 1. Find bucket by orderId (optional reduce, validate price) 2. Find in remove order in the
+     * bucket (remove from internal queue and hash table) (optional remove bucket) (set new price and try match instantly) 3. Find bucket for new
+     * price 4. Insert order in the bucket (internal hash table and queue)
      * <p>
-     * orderId  - order id
-     * newPrice - new price (0 - don't move the order)
-     * newSize  - new size (0 - don't reduce size of the order)
+     * orderId  - order id newPrice - new price (0 - don't move the order) newSize  - new size (0 - don't reduce size of the order)
      *
      * @return - false if order not found (can be matched or removed), true otherwise
      */
@@ -306,7 +291,6 @@ public class OrderBookFast extends OrderBookBase {
         if (bucket == null) {
             return false;
         }
-
 
         // if change volume operation - use bucket implementation
         // NOTE: not very efficient if moving and reducing volume
@@ -347,8 +331,8 @@ public class OrderBookFast extends OrderBookBase {
 
         // if not filled completely - put it into corresponding bucket
         bucket = (order.action == ASK)
-                ? getOrCreateNewBucketAck(newPrice)
-                : getOrCreateNewBucketBid(newPrice);
+            ? getOrCreateNewBucketAck(newPrice)
+            : getOrCreateNewBucketBid(newPrice);
         bucket.add(order);
         idMapToBucket.put(orderId, bucket);
 
@@ -391,8 +375,7 @@ public class OrderBookFast extends OrderBookBase {
 
 
     /**
-     * Get order from internal map
-     * Testing only
+     * Get order from internal map Testing only
      *
      * @param orderId -
      * @return - order
@@ -474,7 +457,6 @@ public class OrderBookFast extends OrderBookBase {
 
     // for testing only
     public int getOrdersNum() {
-
         //validateInternalState();
 
         int askOrders = askBuckets.values().stream().mapToInt(IOrdersBucket::getNumOrders).sum();
@@ -487,5 +469,4 @@ public class OrderBookFast extends OrderBookBase {
 
         return idMapToBucket.size();
     }
-
 }

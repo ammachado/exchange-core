@@ -75,6 +75,4 @@ public class L2MarketData {
                 .max()
                 .orElse(minWidth);
     }
-
-
 }

@@ -110,7 +110,6 @@ public abstract class OrderBookBase implements IOrderBook {
      */
     abstract boolean updateOrder(OrderCommand cmd);
 
-
     /**
      * Request to publish L2 market data into outgoing com.lmax.disruptor message
      *
@@ -135,7 +134,6 @@ public abstract class OrderBookBase implements IOrderBook {
         MatcherTradeEvent event = eventsPool.pollLast();
         return (event == null) ? new MatcherTradeEvent() : event;
     }
-
 
     protected void sendTradeEvent(OrderCommand activeOrder, Order matchingOrder, boolean fm, boolean fma, int price, long v) {
 
@@ -167,7 +165,6 @@ public abstract class OrderBookBase implements IOrderBook {
 //        log.debug(" currentCmd.matcherEvent={}", currentCmd.matcherEvent);
     }
 
-
     protected void sendReduceEvent(Order order, long reducedBy) {
 //        log.debug("Reduce ");
         final MatcherTradeEvent event = newMatcherEvent();
@@ -187,7 +184,6 @@ public abstract class OrderBookBase implements IOrderBook {
         event.nextEvent = currentCmd.matcherEvent;
         currentCmd.matcherEvent = event;
     }
-
 
     protected void sendRejectEvent(OrderCommand order, long filledSize) {
 
@@ -215,6 +211,4 @@ public abstract class OrderBookBase implements IOrderBook {
         event.nextEvent = currentCmd.matcherEvent;
         currentCmd.matcherEvent = event;
     }
-
-
 }

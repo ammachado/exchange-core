@@ -16,11 +16,12 @@ public class SymbolPortfolio {
 
     public int symbol;
 
+    @Builder.Default
     public PortfolioPosition position = PortfolioPosition.EMPTY;
 
-    public long totalSize = 0;
+    public long totalSize;
 
-    public long acquireAmountSum = 0; //
+    public long acquireAmountSum; //
 
     public long uid;
 
@@ -30,16 +31,19 @@ public class SymbolPortfolio {
      * increment before sending order to matching engine
      * decrement after receiving trade confirmation from matching engine
      */
-    public long pendingSellSize = 0;
-    public long pendingBuySize = 0;
+    public long pendingSellSize;
+    public long pendingBuySize;
 
     // TODO use single array as interleaving
     // portfolio records array queue (processed as FIFO)
+    @Builder.Default
     public long[] portfolioVolumes = new long[64];
+    @Builder.Default
     public long[] portfolioPrices = new long[64];
-    public int portfolioTail = 0;
-    public int portfolioHead = 0;
-    public int portfolioSize = 0;
+
+    public int portfolioTail;
+    public int portfolioHead;
+    public int portfolioSize;
 
     public SymbolPortfolio(int symbol, long uid) {
         this.symbol = symbol;
@@ -154,5 +158,4 @@ public class SymbolPortfolio {
         acquireAmountSum = 0;
         position = PortfolioPosition.EMPTY;
     }
-
 }

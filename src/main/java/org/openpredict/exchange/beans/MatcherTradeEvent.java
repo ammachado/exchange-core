@@ -1,6 +1,5 @@
 package org.openpredict.exchange.beans;
 
-
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -31,7 +30,6 @@ public class MatcherTradeEvent {
     // reference to next event in chain
     public MatcherTradeEvent nextEvent;
 
-
     // testing only
     public MatcherTradeEvent copy() {
         MatcherTradeEvent evt = new MatcherTradeEvent();
@@ -48,5 +46,4 @@ public class MatcherTradeEvent {
         evt.timestamp = this.timestamp;
         return evt;
     }
-
 }

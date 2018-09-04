@@ -23,12 +23,11 @@ public enum CommandResultEventType {
 
             case MOVE_ORDER:
                 return resultCode == CommandResultCode.SUCCESS ? UPDATE_SUCCEEDED : UPDATE_FAILED;
+
             case CANCEL_ORDER:
                 return resultCode == CommandResultCode.SUCCESS ? CANCEL_SUCCEEDED : CANCEL_FAILED;
         }
 
         return UNKNOWN;
-
     }
-
 }

@@ -22,5 +22,4 @@ public class SymbolSpecification {
     public int priceStep;
     public int priceScale;
     public int lotSize;
-
 }

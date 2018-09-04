@@ -12,12 +12,10 @@ import static org.junit.Assert.assertThat;
 @Slf4j
 public class ConcurrentBitSetTest {
 
-
     private final static int TEST_LENGTH = 20000;
 
     @Test
     public void shouldSetAndClearOnlySpecifiedBits() {
-
         ConcurrentBitSet cbs = new ConcurrentBitSet(TEST_LENGTH);
         BitSet bs = new BitSet();
 
@@ -35,7 +33,6 @@ public class ConcurrentBitSetTest {
             assertThat(cbs.get(i), is(bs.get(i)));
         }
 
-
         for (int i = 0; i < TEST_LENGTH; i++) {
             boolean b = rand.nextBoolean();
             if (b) {
@@ -48,13 +45,10 @@ public class ConcurrentBitSetTest {
             //log.debug("{}. {} expected:{}", i, cbs.get(i), bs.get(i));
             assertThat(cbs.get(i), is(bs.get(i)));
         }
-
-
     }
 
     @Test
     public void shouldFindSetBits() {
-
         Random rand = new Random(1L);
 
         for (int j = 2; j < TEST_LENGTH; j *= 2) {
@@ -73,10 +67,6 @@ public class ConcurrentBitSetTest {
                 assertThat(cbs.get(i), is(bs.get(i)));
                 assertThat(cbs.nextSetBit(i), is(bs.nextSetBit(i)));
             }
-
         }
-
-
     }
-
 }

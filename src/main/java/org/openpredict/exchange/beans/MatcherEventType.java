@@ -1,6 +1,7 @@
 package org.openpredict.exchange.beans;
 
 public enum MatcherEventType {
+
     TRADE, // regular type of the event
 
     // Can happen only when MARKET order has to be rejected by Matcher Engine due lack of liquidity

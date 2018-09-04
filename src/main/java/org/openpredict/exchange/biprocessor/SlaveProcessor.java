@@ -16,29 +16,27 @@
 package org.openpredict.exchange.biprocessor;
 
 import com.lmax.disruptor.*;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
+@RequiredArgsConstructor
 public final class SlaveProcessor<T> implements EventProcessor {
+
     private static final int IDLE = 0;
     private static final int HALTED = IDLE + 1;
     private static final int RUNNING = HALTED + 1;
 
     private final AtomicInteger running = new AtomicInteger(IDLE);
+    private final Sequence sequence = new Sequence(Sequencer.INITIAL_CURSOR_VALUE);
+
     private final DataProvider<T> dataProvider;
     private final SequenceBarrier sequenceBarrier;
     private final SimpleEventHandler<? super T> eventHandler;
-    private final Sequence sequence = new Sequence(Sequencer.INITIAL_CURSOR_VALUE);
 
     private long nextSequence = -1;
-
-    public SlaveProcessor(DataProvider<T> dataProvider, SequenceBarrier sequenceBarrier, SimpleEventHandler<? super T> eventHandler) {
-        this.dataProvider = dataProvider;
-        this.sequenceBarrier = sequenceBarrier;
-        this.eventHandler = eventHandler;
-    }
 
     @Override
     public Sequence getSequence() {

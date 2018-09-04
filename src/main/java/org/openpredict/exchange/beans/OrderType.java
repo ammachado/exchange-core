@@ -1,15 +1,15 @@
 package org.openpredict.exchange.beans;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-@Getter
+@RequiredArgsConstructor
 public enum OrderType {
-    LIMIT(0),
-    MARKET(1);
 
-    private byte code;
+    LIMIT((byte) 0),
 
-    OrderType(int code) {
-        this.code = (byte) code;
-    }
+    MARKET((byte) 1);
+
+    @Getter
+    private final byte code;
 }

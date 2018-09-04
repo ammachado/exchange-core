@@ -1,21 +1,5 @@
 package org.openpredict.exchange.tests.performance;
 
-
-import lombok.extern.slf4j.Slf4j;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.openpredict.exchange.beans.Order;
-import org.openpredict.exchange.core.IOrdersBucket;
-import org.openpredict.exchange.core.TradeEventCallback;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
@@ -24,10 +8,24 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-@RunWith(MockitoJUnitRunner.class)
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
+import org.openpredict.exchange.beans.Order;
+import org.openpredict.exchange.core.IOrdersBucket;
+import org.openpredict.exchange.core.TradeEventCallback;
+
 @Slf4j
 public class ITOrderBucket {
 
+    public final MockitoRule mockitoRule = MockitoJUnit.rule();
 
     private static final int PRICE = 1000;
     private static final int UID_1 = 412;
@@ -136,7 +134,6 @@ public class ITOrderBucket {
 
     }
 
-
     // ---------------------- PERFORMANCE ----------------
 
     @Test
@@ -216,8 +213,6 @@ public class ITOrderBucket {
 
         }
 
-        log.debug("Time: {}ms", timeAccum / 1000000);
-
+        log.debug("Time: {} ms", timeAccum / 1000000);
     }
-
 }
